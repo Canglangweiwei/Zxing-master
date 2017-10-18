@@ -39,7 +39,7 @@ import java.util.Map;
 
 /**
  * 条形码和二维码扫描器(使用方法：启动本界面即可)
- *
+ * <p>
  * This activity opens the camera and does the actual scanning on a background
  * thread. It draws a viewfinder to help the user place the barcode correctly,
  * shows feedback as the image processing is happening, and then overlays the
@@ -130,31 +130,25 @@ public final class DecodeActivity extends Activity implements
         private WeakReference<Activity> activityReference;
 
         public MyHandler(Activity activity) {
-            activityReference = new WeakReference<Activity>(activity);
+            activityReference = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-
             switch (msg.what) {
                 case PARSE_BARCODE_SUC: // 解析图片成功
                     Toast.makeText(activityReference.get(),
                             "解析成功，结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
                     break;
-
                 case PARSE_BARCODE_FAIL:// 解析图片失败
-
                     Toast.makeText(activityReference.get(), "解析图片失败",
                             Toast.LENGTH_SHORT).show();
                     break;
-
                 default:
                     break;
             }
-
             super.handleMessage(msg);
         }
-
     }
 
     @Override
@@ -183,7 +177,6 @@ public final class DecodeActivity extends Activity implements
     @Override
     protected void onResume() {
         super.onResume();
-
         // CameraManager must be initialized here, not in onCreate(). This is
         // necessary because we don't
         // want to open the camera driver and measure the screen size if we're
@@ -276,15 +269,12 @@ public final class DecodeActivity extends Activity implements
             case KeyEvent.KEYCODE_CAMERA:
                 // Handle these events so they don't launch the Camera app
                 return true;
-
             case KeyEvent.KEYCODE_VOLUME_UP:
                 cameraManager.zoomIn();
                 return true;
-
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 cameraManager.zoomOut();
                 return true;
-
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -296,7 +286,6 @@ public final class DecodeActivity extends Activity implements
             final ProgressDialog progressDialog;
             switch (requestCode) {
                 case REQUEST_CODE:
-
                     // 获取选中图片的路径
                     Cursor cursor = getContentResolver().query(
                             intent.getData(), null, null, null, null);
@@ -315,10 +304,8 @@ public final class DecodeActivity extends Activity implements
 
                         @Override
                         public void run() {
-
                             Bitmap img = BitmapUtils
                                     .getCompressedBitmap(photoPath);
-
                             BitmapDecoder decoder = new BitmapDecoder(
                                     DecodeActivity.this);
                             Result result = decoder.getRawResult(img);
@@ -334,17 +321,12 @@ public final class DecodeActivity extends Activity implements
                                 m.what = PARSE_BARCODE_FAIL;
                                 mHandler.sendMessage(m);
                             }
-
                             progressDialog.dismiss();
-
                         }
                     }).start();
-
                     break;
-
             }
         }
-
     }
 
     @Override
@@ -393,7 +375,7 @@ public final class DecodeActivity extends Activity implements
         Toast.makeText(this,
                 "识别结果:" + ResultParser.parseResult(rawResult).toString(),
                 Toast.LENGTH_SHORT).show();
-
+        finish();
     }
 
     public void restartPreviewAfterDelay(long delayMS) {
@@ -456,9 +438,6 @@ public final class DecodeActivity extends Activity implements
 
     /**
      * 向CaptureActivityHandler中发送消息，并展示扫描到的图像
-     *
-     * @param bitmap
-     * @param result
      */
     private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
         // Bitmap isn't used yet -- will be used soon
@@ -493,11 +472,9 @@ public final class DecodeActivity extends Activity implements
                 // 打开手机中的相册
                 Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT); // "android.intent.action.GET_CONTENT"
                 innerIntent.setType("image/*");
-                Intent wrapperIntent = Intent.createChooser(innerIntent,
-                        "选择二维码图片");
+                Intent wrapperIntent = Intent.createChooser(innerIntent, "选择二维码图片");
                 this.startActivityForResult(wrapperIntent, REQUEST_CODE);
                 break;
-
             case R.id.capture_flashlight:
                 if (isFlashlightOpen) {
                     cameraManager.setTorch(false); // 关闭闪光灯
@@ -515,7 +492,5 @@ public final class DecodeActivity extends Activity implements
             default:
                 break;
         }
-
     }
-
 }
