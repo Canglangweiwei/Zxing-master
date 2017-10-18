@@ -19,6 +19,13 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
+ * 用法：
+ * final ImageView image = (ImageView) findViewById(R.id.imageView);
+ * Bitmap bitmap = ZxingUtil.getInstance().encodeAsBitmap(MainActivity.this, "http://www.89892528.com");
+ * image.setImageBitmap(bitmap);
+ */
+
+/**
  * 扫描条形码、二维码，将字符串编码成二维码图片的工具类
  * Created by Zero on 2016/2/25.
  */
