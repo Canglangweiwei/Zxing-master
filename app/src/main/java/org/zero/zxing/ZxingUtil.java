@@ -1,5 +1,6 @@
 package org.zero.zxing;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -98,7 +99,8 @@ public class ZxingUtil {
     /**
      * 扫描条形码和二维码
      */
-    public void decode(Context context) {
-        context.startActivity(new Intent(context, DecodeActivity.class));
+    public void decode(Activity mActivity, int requestCode) {
+        Intent intent = new Intent(mActivity, DecodeActivity.class);
+        mActivity.startActivityForResult(intent, requestCode);
     }
 }

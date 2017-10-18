@@ -372,9 +372,11 @@ public final class DecodeActivity extends Activity implements
 
         beepManager.playBeepSoundAndVibrate();
 
-        Toast.makeText(this,
-                "识别结果:" + ResultParser.parseResult(rawResult).toString(),
-                Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("scan_result", ResultParser.parseResult(rawResult).toString());
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

@@ -2,6 +2,7 @@
   <dictionary name="Administrator">
     <words>
       <w>greyscale</w>
+      <w>tview</w>
     </words>
   </dictionary>
 </component>
